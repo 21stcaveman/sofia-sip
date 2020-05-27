@@ -248,6 +248,7 @@ typedef enum
   sdp_proto_msrp =  259,		/**< TCP/MSRP @NEW_MSRP*/
   sdp_proto_msrps = 260,		/**< TCP/TLS/MSRP @NEW_MSRP*/
   sdp_proto_extended_srtp = 261, /** WEBRTC */
+  sdp_proto_extended_rtp = 262, /** WEBRTC AVPF */
   sdp_proto_tls = 511,			/**< TLS over TCP */
   sdp_proto_any = 512		        /**< * wildcard */
 } sdp_proto_e;
