@@ -1263,8 +1263,8 @@ static void parse_media(sdp_parser_t *p, char *r, sdp_media_t **result)
                          space proto 1*(space fmt) CRLF
 
    media =               token
-                         ;typically "audio", "video", "application"
-                         ;or "data"
+                         ;typically "audio", "video", "application",
+                         ;"data" or "text"
 
    fmt =                 token
                          ;typically an RTP payload type for audio
@@ -1367,6 +1367,8 @@ void sdp_media_type(sdp_media_t *m, char const *s)
     m->m_type = sdp_media_image, m->m_type_name = "image";
   else if (su_casematch(s, "red"))
     m->m_type = sdp_media_red, m->m_type_name = "red";
+  else if (su_casematch(s, "text"))
+    m->m_type = sdp_media_text, m->m_type_name = "text";
   else
     m->m_type = sdp_media_x, m->m_type_name = s;
 }
