@@ -913,6 +913,8 @@ static void parse_bandwidth(sdp_parser_t *p, char *r, sdp_bandwidth_t **result)
 
   if (su_casematch(name, "CT"))
     modifier = sdp_bw_ct, name = NULL;
+  else if (su_casematch(name, "TIAS") == 1)
+    modifier = sdp_bw_tias, name = "TIAS";
   else if (su_casematch(name, "AS") == 0)
     modifier = sdp_bw_as, name = NULL;
   else
@@ -1388,9 +1390,17 @@ void sdp_media_transport(sdp_media_t *m, char const *s)
     m->m_proto = sdp_proto_rtp, m->m_proto_name = "RTP/AVP";
   else if (su_casematch(s, "RTP/SAVP"))
     m->m_proto = sdp_proto_srtp, m->m_proto_name = "RTP/SAVP";
+  else if (su_casematch(s, "RTP/SAVPF"))
+    m->m_proto = sdp_proto_extended_srtp, m->m_proto_name = "RTP/SAVPF";
+  else if (su_casematch(s, "UDP/TLS/RTP/SAVPF"))
+    m->m_proto = sdp_proto_extended_srtp, m->m_proto_name = "UDP/TLS/RTP/SAVPF";
   else if (su_casematch(s, "udptl"))
     /* Lower case - be compatible with people living by T.38 examples */
     m->m_proto = sdp_proto_udptl, m->m_proto_name = "udptl";
+  else if (su_casematch(s, "TCP/MSRP"))
+    m->m_proto = sdp_proto_msrp, m->m_proto_name = "TCP/MSRP";
+  else if (su_casematch(s, "TCP/TLS/MSRP"))
+    m->m_proto = sdp_proto_msrps, m->m_proto_name = "TCP/TLS/MSRP";
   else if (su_casematch(s, "UDP"))
     m->m_proto = sdp_proto_udp, m->m_proto_name = "UDP";
   else if (su_casematch(s, "TCP"))
@@ -1404,7 +1414,7 @@ void sdp_media_transport(sdp_media_t *m, char const *s)
 /** Check if media uses RTP as its transport protocol.  */
 int sdp_media_has_rtp(sdp_media_t const *m)
 {
-  return m && (m->m_proto == sdp_proto_rtp || m->m_proto == sdp_proto_srtp);
+  return m && (m->m_proto == sdp_proto_rtp || m->m_proto == sdp_proto_srtp || m->m_proto == sdp_proto_extended_srtp);
 }
 
 #define RTPMAP(pt, encoding, rate, params) \

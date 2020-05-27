@@ -430,6 +430,7 @@ static void print_bandwidths(sdp_printer_t *p, sdp_bandwidth_t const *b)
     switch (b->b_modifier) {
     case sdp_bw_ct: name = "CT"; break;
     case sdp_bw_as: name = "AS"; break;
+    case sdp_bw_tias: name = "TIAS"; break;
     default:        name = b->b_modifier_name; break;
     }
 
@@ -591,7 +592,10 @@ static void print_media(sdp_printer_t *p,
     case sdp_proto_udp:   proto = "udp"; break;
     case sdp_proto_rtp:   proto = "RTP/AVP"; break;
     case sdp_proto_srtp:  proto = "RTP/SAVP"; break;
+    case sdp_proto_extended_srtp:  proto = "RTP/SAVPF"; break;
     case sdp_proto_udptl: proto = "udptl"; break;
+    case sdp_proto_msrp:  proto = "TCP/MSRP"; break;
+    case sdp_proto_msrps:  proto = "TCP/TLS/MSRP"; break;
     case sdp_proto_tls:   proto = "tls"; break;
     default:              proto = m->m_proto_name; break;
     }
